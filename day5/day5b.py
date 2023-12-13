@@ -1,12 +1,13 @@
 def split_list(original: list) -> list:
     sub = []
-    del(original[0])
+    del original[0]
     while original:
         line = original.pop(0)
         if not line:
             return sub
         sub.append(line.split())
     return sub
+
 
 def adjust(inputs: list[int], mapping: list[int]):
     result = []
@@ -33,7 +34,9 @@ def adjust(inputs: list[int], mapping: list[int]):
                 result.append(start_map + map_adjust)
                 result.append(end_map - start_map)
 
-                inputs.append(end_map)  # send back through loop because we can only process one
+                inputs.append(
+                    end_map
+                )  # send back through loop because we can only process one
                 inputs.append(end_num - end_map)
 
                 end_num = start_map
@@ -42,7 +45,7 @@ def adjust(inputs: list[int], mapping: list[int]):
                 result.append(start_map + map_adjust)
                 result.append(end_num - start_map)
                 end_num = start_map
-                
+
             else:  # input right overhang
                 result.append(start_num + map_adjust)
                 result.append(end_map - start_num)
@@ -53,11 +56,12 @@ def adjust(inputs: list[int], mapping: list[int]):
             result.append(end_num - start_num)
     return result
 
+
 with open("day5.txt", "r") as file:
     lines = [line.strip() for line in file.readlines()]
     seeds = lines.pop(0).split()
-    del(lines[0])
-    del(seeds[0])
+    del lines[0]
+    del seeds[0]
     current_answer = [int(seed) for seed in seeds]
 
     while lines:

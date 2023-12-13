@@ -1,20 +1,24 @@
-from time import sleep
 from math import lcm
-map = {
-"AAA": ["BBB", "BBB"],
-"BBB": ["AAA", "ZZZ"],
-"ZZZ": ["ZZZ", "ZZZ"]
-}
+from time import sleep
+
+map = {"AAA": ["BBB", "BBB"], "BBB": ["AAA", "ZZZ"], "ZZZ": ["ZZZ", "ZZZ"]}
 
 with open("day8.txt", "r") as file:
     lines = file.readlines()
     instructions = lines[0].strip()
-    del(lines[0:2])
+    del lines[0:2]
 
     current_keys = []
     formatted_lines = {}
     for line in lines:
-        cleaned_line = line.strip().replace("=", "").replace("(", "").replace(")", "").replace(",", "").split()
+        cleaned_line = (
+            line.strip()
+            .replace("=", "")
+            .replace("(", "")
+            .replace(")", "")
+            .replace(",", "")
+            .split()
+        )
         formatted_lines[cleaned_line[0]] = cleaned_line[1:3]
         if cleaned_line[0][2] == "A":
             current_keys.append(cleaned_line[0])

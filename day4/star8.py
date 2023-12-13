@@ -4,7 +4,7 @@ with open("day4.txt", "r") as file:
 
     for line_index, line in enumerate(lines):
         count = 0
-        two_parts = line.split('|')
+        two_parts = line.split("|")
         left = two_parts[0].split()
         right = two_parts[1].split()
 
@@ -16,4 +16,3 @@ with open("day4.txt", "r") as file:
             copies[line_index + i] += copies[line_index]
 
     print(sum(copies))
-
