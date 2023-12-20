@@ -1,125 +1,127 @@
 def main():
-    with open("d17.txt", "r") as file:
+    with open("day17.txt", "r") as file:
         lines = [line.strip() for line in file.readlines()]
 
-    locations = {}
+    MAX_X = len(lines[0]) - 1
+    MAX_Y = len(lines) - 1
 
-    locations[(0, 0)] = [
-        int(lines[0][0]),
+    locations = {}
+    locations[(0, 0)] = [[
+        0,
         "r",
         0,
         True,
-    ]  # heat, current direction, straight line, active
+    ]]  # heat, current direction, straight line, active
 
-    for _ in range(10):
+    for _ in range(500):
         new_locations = {}
         for coords in locations:
-            if locations[coords][3]:
-                for direction in calculate_directions(
-                    locations[coords][1], locations[coords][2]
-                ):
-                    if direction == "u" and coords[1] != 0:
-                        new_coords = (coords[0], coords[1] - 1)
-                        if new_coords in locations and locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        elif new_coords in new_locations and new_locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        else:
-                            new_locations[new_coords] = [
-                                locations[coords][0]
+            for stored_value in locations[coords]:
+                if stored_value[3]:
+                    for direction in calculate_directions(stored_value[1], stored_value[2]):
+                        if direction == "u" and coords[1] > 0:
+                            new_coords = (coords[0], coords[1] - 1)
+
+                            if direction == stored_value[1]:
+                                new_straight = stored_value[2] + 1
+                            else:
+                                new_straight = 1
+
+                            if new_coords not in new_locations:
+                                new_locations[new_coords] = []
+
+                            new_locations[new_coords].append([
+                                stored_value[0]
                                 + int(lines[new_coords[1]][new_coords[0]]),
                                 direction,
-                                locations[coords][2]
-                                + (direction == locations[coords][1]),
+                                new_straight,
                                 True,
-                            ]
+                            ])
 
-                    if direction == "d" and coords[1] != len(lines):
-                        new_coords = (coords[0], coords[1] + 1)
-                        if new_coords in locations and locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        elif new_coords in new_locations and new_locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        else:
-                            new_locations[new_coords] = [
-                                locations[coords][0]
+                        if direction == "d" and coords[1] < MAX_Y:
+                            new_coords = (coords[0], coords[1] + 1)
+
+                            if direction == stored_value[1]:
+                                new_straight = stored_value[2] + 1
+                            else:
+                                new_straight = 1
+
+                            if new_coords not in new_locations:
+                                new_locations[new_coords] = []
+
+                            new_locations[new_coords].append([
+                                stored_value[0]
                                 + int(lines[new_coords[1]][new_coords[0]]),
                                 direction,
-                                locations[coords][2]
-                                + (direction == locations[coords][1]),
+                                new_straight,
                                 True,
-                            ]
+                            ])
 
-                    if direction == "l" and coords[0] != 0:
-                        new_coords = (coords[0] - 1, coords[1])
-                        if new_coords in locations and locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        elif new_coords in new_locations and new_locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        else:
-                            new_locations[new_coords] = [
-                                locations[coords][0]
+                        if direction == "l" and coords[0] > 0:
+                            new_coords = (coords[0] - 1, coords[1])
+     
+                            if direction == stored_value[1]:
+                                new_straight = stored_value[2] + 1
+                            else:
+                                new_straight = 1
+
+                            if new_coords not in new_locations:
+                                new_locations[new_coords] = []
+
+                            new_locations[new_coords].append([
+                                stored_value[0]
                                 + int(lines[new_coords[1]][new_coords[0]]),
                                 direction,
-                                locations[coords][2]
-                                + (direction == locations[coords][1]),
+                                new_straight,
                                 True,
-                            ]
+                            ])
 
-                    if direction == "r" and coords[0] != len(lines[0]):
-                        new_coords = (coords[0] + 1, coords[1])
-                        if new_coords in locations and locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        elif new_coords in new_locations and new_locations[new_coords][
-                            0
-                        ] < locations[coords][0] + int(
-                            lines[new_coords[1]][new_coords[0]]
-                        ):
-                            pass
-                        else:
-                            new_locations[new_coords] = [
-                                locations[coords][0]
+                        if direction == "r" and coords[0] < MAX_X:
+                            new_coords = (coords[0] + 1, coords[1])
+
+                            if direction == stored_value[1]:
+                                new_straight = stored_value[2] + 1
+                            else:
+                                new_straight = 1
+
+                            if new_coords not in new_locations:
+                                new_locations[new_coords] = []
+
+                            new_locations[new_coords].append([
+                                stored_value[0]
                                 + int(lines[new_coords[1]][new_coords[0]]),
                                 direction,
-                                locations[coords][2]
-                                + (direction == locations[coords][1]),
+                                new_straight,
                                 True,
-                            ]
+                            ])
 
-            locations[coords][3] = False
-        if (len(lines[0]), len(lines)) in new_locations:
-            print(new_locations[(len(lines[0]), len(lines))])
-            break
-        locations.update(new_locations)
-    print(locations)
+                stored_value[3] = False
+                if not coords in new_locations:
+                    new_locations[coords] = []
+                new_locations[coords].append(stored_value)
+        
+        locations = new_locations
+
+        # Cleanup
+        for coords in locations:
+            last = len(locations[coords]) - 1
+            while last > 0:
+                compared_index = last - 1
+                while compared_index > 0:
+                    if locations[coords][compared_index][1:3] == locations[coords][last][1:3]:
+                        if locations[coords][compared_index][0] >= locations[coords][last][0]:
+                            locations[coords][compared_index][0] = locations[coords][last][0]
+                            locations[coords][compared_index][3] = locations[coords][last][3]
+                        del(locations[coords][last])
+                        break
+                    compared_index -= 1
+                last -= 1
+
+        # Check for completion
+        if (MAX_X, MAX_Y) in locations:
+            print(locations[(MAX_X, MAX_Y)])
+
+
 
 
 def calculate_directions(direction, straight):
@@ -133,7 +135,7 @@ def calculate_directions(direction, straight):
     if direction == "d":
         return ["d", "l", "r"]
     if direction == "l":
-        return ["u", "d", "l"]
+        return ["l", "u", "d"]
     return ["u", "d", "r"]
 
 
