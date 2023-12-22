@@ -1,3 +1,5 @@
+from math import comb
+
 with open("day9.txt", "r") as file:
     lines = file.readlines()
     total_sum = 0

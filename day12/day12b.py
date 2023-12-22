@@ -7,16 +7,15 @@ cache = {}
 def format_line(line):
     split_line = line.split()
     data = list(split_line[0].replace("...", ".").replace("..", "."))
-    data.append('.')
-    #data = [*data, '?', *data, '?', *data, '?', *data, '?', *data, '.', '.']
-    targets = [x for x in split_line[1].split(',')]
+    data = [*data, '?', *data, '?', *data, '?', *data, '?', *data, '.', '.']
+    targets = [x for x in split_line[1].split(',')]*5
     return data, targets
 
 
 def create_cache_key(data, targets):
     cache_key = ''.join([*data, *targets])
-    shortened_key = cache_key.replace('...', ".").replace('..', ".")  # Reduce all groups of '.' to a single '.'
-    return shortened_key.replace('...', ".").replace('..', ".").replace('...', ".").replace('..', ".")
+    # Reduce all groups of '.' to a single '.'
+    return cache_key.replace('.....', ".").replace('...', ".").replace('..', ".")
 
 
 def recursive_check(line, targets, current_size = 0, current_index = 0, current_target = 0, recursive_sum = 0):
@@ -71,8 +70,6 @@ def main():
             total_sum += recursive_check(data, targets)
 
         print(f"total: {total_sum}")
-    for i in cache:
-        print(i, cache[i])
 
 if __name__ == "__main__":
     main()

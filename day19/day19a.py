@@ -36,7 +36,6 @@ def main():
 
         workflow = 'in'
         while True:
-            #print(f"workflow: {workflow}")
 
             if workflow == 'A':
                 total += x+m+a+s
@@ -50,6 +49,7 @@ def main():
                     workflow = rule[0]
                     break
                     
+                # example:x < 3754
                 if eval(f"{rule[0][0]} {rule[0][1]} {rule[0][2:]}"):
                     workflow = rule[1]
                     break
