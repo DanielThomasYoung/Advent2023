@@ -4,16 +4,12 @@ def main():
 
     MAX_X = len(lines[0]) - 1
     MAX_Y = len(lines) - 1
+    print(MAX_X, MAX_Y)
 
     locations = {}
-    locations[(0, 0)] = [[
-        0,
-        "r",
-        0,
-        True,
-    ]]  # heat, current direction, straight line, active
+    locations[(0, 0)] = [[0, "r", 0, True], [0, "d", 0, True]]  # heat, current direction, straight line, active
 
-    for _ in range(500):
+    for _ in range(350):
         new_locations = {}
         for coords in locations:
             for stored_value in locations[coords]:
@@ -102,6 +98,7 @@ def main():
         
         locations = new_locations
 
+        answer = 9999
         # Cleanup
         for coords in locations:
             last = len(locations[coords]) - 1
@@ -116,16 +113,19 @@ def main():
                         break
                     compared_index -= 1
                 last -= 1
+            # if coords == (10, 4):
+            #     print(locations[coords])
 
-    # Check for completion
+        
+
+    # # Check for completion
     if (MAX_X, MAX_Y) in locations:
-        answer = 9999
+        
         for data in locations[(MAX_X, MAX_Y)]:
-            answer = min(answer, data[0])
+            if data[2] > 3:
+                answer = min(answer, data[0])
 
     print(f"answer: {answer}")
-
-
 
 
 def calculate_directions(direction, straight):
