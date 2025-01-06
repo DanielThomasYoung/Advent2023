@@ -12,7 +12,7 @@ def calculate_distance(lines, total_galaxies):
 
     return sum
 
-with open("day11.txt", "r") as file:
+with open("input.txt", "r") as file:
     lines = file.readlines()
     total_sum = 0
 
