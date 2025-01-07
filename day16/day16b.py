@@ -1,5 +1,5 @@
 def main():
-    with open('day16.txt', 'r') as file:
+    with open("day16.txt", "r") as file:
         lines = [line.strip() for line in file.readlines()]
 
     best_run = 0
@@ -12,13 +12,12 @@ def main():
     for i in range(X_MAX):
         starting_coords.append((i, -1))
         starting_coords.append((i, Y_MAX))
-    
+
     for i in range(Y_MAX):
         starting_coords.append((-1, i))
         starting_coords.append((X_MAX, i))
-    
-    print(len(starting_coords))
 
+    print(len(starting_coords))
 
     for start in starting_coords:
         horizontal_history = set()
@@ -31,16 +30,15 @@ def main():
 
         if start[0] == -1:
             right_lasers.add(start)
-        
+
         if start[0] == X_MAX:
             left_lasers.add(start)
 
         if start[1] == -1:
             down_lasers.add(start)
-        
+
         if start[1] == Y_MAX:
             up_lasers.add(start)
-
 
         while up_lasers or down_lasers or left_lasers or right_lasers:
             new_up_lasers = set()
@@ -55,13 +53,13 @@ def main():
                     new_coords = (laser[0], laser[1] - 1)
                     char = lines[new_coords[1]][new_coords[0]]
 
-                    if char == '\\':
+                    if char == "\\":
                         new_left_lasers.add(new_coords)
 
-                    elif char == '/':
+                    elif char == "/":
                         new_right_lasers.add(new_coords)
 
-                    elif char == '-':
+                    elif char == "-":
                         if new_coords not in horizontal_history:
                             new_left_lasers.add(new_coords)
                             new_right_lasers.add(new_coords)
@@ -76,13 +74,13 @@ def main():
                     new_coords = (laser[0], laser[1] + 1)
                     char = lines[new_coords[1]][new_coords[0]]
 
-                    if char == '\\':
+                    if char == "\\":
                         new_right_lasers.add(new_coords)
 
-                    elif char == '/':
+                    elif char == "/":
                         new_left_lasers.add(new_coords)
 
-                    elif char == '-':
+                    elif char == "-":
                         if new_coords not in horizontal_history:
                             new_left_lasers.add(new_coords)
                             new_right_lasers.add(new_coords)
@@ -97,13 +95,13 @@ def main():
                     new_coords = (laser[0] - 1, laser[1])
                     char = lines[new_coords[1]][new_coords[0]]
 
-                    if char == '\\':
+                    if char == "\\":
                         new_up_lasers.add(new_coords)
 
-                    elif char == '/':
+                    elif char == "/":
                         new_down_lasers.add(new_coords)
 
-                    elif char == '|':
+                    elif char == "|":
                         if new_coords not in vertical_history:
                             new_up_lasers.add(new_coords)
                             new_down_lasers.add(new_coords)
@@ -118,13 +116,13 @@ def main():
                     new_coords = (laser[0] + 1, laser[1])
                     char = lines[new_coords[1]][new_coords[0]]
 
-                    if char == '\\':
+                    if char == "\\":
                         new_down_lasers.add(new_coords)
 
-                    elif char == '/':
+                    elif char == "/":
                         new_up_lasers.add(new_coords)
 
-                    elif char == '|':
+                    elif char == "|":
                         if new_coords not in vertical_history:
                             new_up_lasers.add(new_coords)
                             new_down_lasers.add(new_coords)
@@ -134,14 +132,13 @@ def main():
 
                 new_horizontal_history.add(laser)
 
-
             up_lasers = new_up_lasers
             down_lasers = new_down_lasers
             left_lasers = new_left_lasers
             right_lasers = new_right_lasers
             horizontal_history = horizontal_history.union(new_horizontal_history)
             vertical_history = vertical_history.union(new_vertical_history)
-        
+
         best_run = max(best_run, len(horizontal_history.union(vertical_history)) - 1)
     print(f"total: {best_run}")
 
@@ -153,6 +150,7 @@ def main():
     #         else:
     #             printable.append('.')
     #     print(printable)
+
 
 if __name__ == "__main__":
     main()

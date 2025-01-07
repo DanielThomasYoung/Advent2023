@@ -1,7 +1,7 @@
 def main():
     with open("day15.txt", "r") as file:
         line = file.readline()
-        all_lens= line.split(',')
+        all_lens = line.split(",")
 
     boxes = {}
     for i in range(256):
@@ -9,16 +9,16 @@ def main():
 
     for lens in all_lens:
         for index in range(len(lens)):
-            if lens[index] == '=':
+            if lens[index] == "=":
                 box = boxes[find_box(lens[:index])]
                 box[lens[:index]] = lens[-1]
                 break
-            if lens[index] == '-':
+            if lens[index] == "-":
                 box = boxes[find_box(lens[:index])]
                 if lens[:index] in box:
-                    del(box[lens[:index]])
+                    del box[lens[:index]]
                 break
-    
+
     total_sum = 0
     for index in range(256):
         box_sum = 0
@@ -36,6 +36,7 @@ def find_box(lens):
         temp_sum *= 17
         temp_sum %= 256
     return temp_sum
+
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-from math import sqrt, floor, ceil
+from math import ceil, floor, sqrt
 
 
 def roots(total_time, target_time):

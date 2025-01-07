@@ -38,7 +38,6 @@ def main():
     edges = set()
     edge_history = set()
 
-
     for i in range(max_up - 1, max_down + 2):
         edges.add((max_left - 1, i))
         edges.add((max_right + 1, i))
@@ -53,24 +52,39 @@ def main():
         new_edges = set()
         for edge in edges:
             new_coord = (edge[0], edge[1] - 1)  # up
-            if new_coord[1] >= max_up and new_coord not in edge_history and new_coord not in walls:
+            if (
+                new_coord[1] >= max_up
+                and new_coord not in edge_history
+                and new_coord not in walls
+            ):
                 new_edges.add(new_coord)
 
             new_coord = (edge[0], edge[1] + 1)  # down
-            if new_coord[1] <= max_down and new_coord not in edge_history and new_coord not in walls:
+            if (
+                new_coord[1] <= max_down
+                and new_coord not in edge_history
+                and new_coord not in walls
+            ):
                 new_edges.add(new_coord)
 
             new_coord = (edge[0] - 1, edge[1])  # left
-            if new_coord[0] >= max_left and new_coord not in edge_history and new_coord not in walls:
+            if (
+                new_coord[0] >= max_left
+                and new_coord not in edge_history
+                and new_coord not in walls
+            ):
                 new_edges.add(new_coord)
 
             new_coord = (edge[0] + 1, edge[1])  # right
-            if new_coord[0] <= max_right and new_coord not in edge_history and new_coord not in walls:
+            if (
+                new_coord[0] <= max_right
+                and new_coord not in edge_history
+                and new_coord not in walls
+            ):
                 new_edges.add(new_coord)
 
         edge_history = edge_history.union(edges)
         edges = new_edges
-
 
     # for index in range(max_up, max_down + 1):
     #     printable = []
