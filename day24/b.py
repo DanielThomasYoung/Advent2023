@@ -1,49 +1,36 @@
-from itertools import combinations
+import sympy as sp
 
 
 def main():
-    with open("input.txt", "r") as file:
+    with open("sample.txt", "r") as file:
         file_lines = file.readlines()
 
-    total = 0
-    slope_int = []
-
-    low_limit = 200000000000000
-    high_limit = 400000000000000
+    vectors = []
 
     for line in file_lines:
         [position, velocity] = line.strip().split(" @ ")
         positions = position.split(", ")
         px = int(positions[0])
         py = int(positions[1])
+        pz = int(positions[2])
         velocities = velocity.split(", ")
         vx = int(velocities[0])
         vy = int(velocities[1])
+        vz = int(velocities[2])
 
-        m = vy / vx
-        b = py - m * px
+        vectors.append([1, -vy, -px, -1, vx, py, py * vx - px * vy])
 
-        slope_int.append((m, b, px, vx > 0))
+    matrix = sp.Matrix(vectors)
+    rref_matrix, _ = matrix.rref()
 
-    for pair in combinations(slope_int, 2):
-        if pair[0][0] != pair[1][0]:
-            x = (pair[0][1] - pair[1][1]) / (pair[1][0] - pair[0][0])
-            y = pair[0][0] * x + pair[0][1]
-            if (
-                x >= low_limit
-                and x <= high_limit
-                and y >= low_limit
-                and y <= high_limit
-                and (
-                    pair[0][3] and pair[0][2] <= x or not pair[0][3] and pair[0][2] >= x
-                )
-                and (
-                    pair[1][3] and pair[1][2] <= x or not pair[1][3] and pair[1][2] >= x
-                )
-            ):
-                total += 1
+    print(rref_matrix)
 
-    print(total)
+    # px1*vy1 - px1*vy2 - px2*vy1 + px2*vy2 = py1*vx1 - py1*vx2 - py2*vx1 + py2*vx2
+
+    # px1*vy1 - px1*vy2 - px2*vy1 - py1*vx1 + py1*vx2 + py2*vx1 = py2*vx2 - px2*vy2
+    #              px        vy                  py        vx
+
+    # 1, -vy2, -px2, -1, vx2, py2 = py2*vx2 - px2*vy2
 
 
 if __name__ == "__main__":
